@@ -7,7 +7,7 @@
     </p>
     <ul>
       <li v-for="post in posts" :key="post.$index">
-        <router-link :to="post.path">{{post.name}}</router-link>
+        <router-link :to="'/post' + post.path">{{post.name}}</router-link>
       </li>
     </ul>
   </div>
@@ -16,8 +16,6 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-
-var apiRoot = 'http://localhost:8081'
 
 export default {
   name: 'home',
@@ -30,9 +28,7 @@ export default {
     }
   },
   mounted () {
-    this.$http.get(apiRoot + '/posts').then(response => {
-      // success callback
-      console.log(response)
+    this.$http.get('posts').then(response => {
       this.posts = response.body
     }, err => {
       // error callback
