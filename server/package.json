@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Salmiak <alfred@salmiakmedia.se>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dropbox": "^4.0.9",
+    "express": "^4.16.3",
+    "isomorphic-fetch": "^2.2.1",
+    "js-yaml": "^3.12.0",
+    "lodash": "^4.17.10",
+    "run-parallel": "^1.1.9"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
