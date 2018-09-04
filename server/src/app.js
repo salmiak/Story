@@ -80,7 +80,8 @@ app.get('/posts/:path', (req, res) => {
     var toSend = {
       name: results[0].name,
       path: results[0].path_lower,
-      images: images
+      images: images,
+      info: {}
     }
 
     if (infoFile) {

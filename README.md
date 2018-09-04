@@ -1,12 +1,18 @@
 # Story
 
 ## ToDo
-- Add OAuth
-- Add client side stuff
+- Add OAuth to Dropbox
+
+- Client:
+  - Image carousel
+  - Next / Prev post link on posts
+  - Nicer front page showing X first posts
+  - Infinit scroll on front page
+
 - Endpoints:
   - info : based on bloginfo.md in root of apps folder
   x posts
-  - post
+  x post
   x image
 
 ## Notes

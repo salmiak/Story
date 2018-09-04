@@ -15,7 +15,9 @@ export default {
   },
   data () {
     return {
-      post: {}
+      post: {
+        info: {}
+      }
     }
   },
   mounted () {
@@ -29,7 +31,7 @@ export default {
   computed: {
     title () {
       if (!this.post.name)
-        return 'Loading...'
+        return ''
       return this.post.info.Name || this.post.name
     }
   }
