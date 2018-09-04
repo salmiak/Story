@@ -14,7 +14,9 @@ app.use(cors())
 
 app.listen(process.env.PORT || 8081)
 
-const dbx = new Dropbox({ accessToken: 'CnIlcxJ_TeAAAAAAAAFfTWdW1n1qGuDx4VegffqCfFwh5MeisNiV20SKPEGI8AGY' });
+const credentials = require('../credentials.json')
+
+const dbx = new Dropbox({ accessToken: credentials.dbAccessToken });
 
 
 app.get('/posts', (req, res) => {
