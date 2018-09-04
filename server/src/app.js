@@ -70,7 +70,7 @@ app.get('/posts/:path', (req, res) => {
       .chain(results[1].entries)
       .filter((file) => { return re.exec(file.name)[1] === 'jpg'})
       .map("path_lower")
-      .value()
+      .value().sort()
 
     var infoFile = _
       .chain(results[1].entries)
