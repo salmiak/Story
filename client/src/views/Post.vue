@@ -2,10 +2,7 @@
   <div>
     <h1>{{title}}</h1>
     <img v-for="img in post.images" :key="img.$index" :src="'http://localhost:8081/image/w32h32' + img" />
-    <p>
-      {{post.post}}
-    </p>
-    <vue-markdown :watches="['post.post']">{{post.post}}</vue-markdown>
+    <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
   </div>
 </template>
 
