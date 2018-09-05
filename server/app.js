@@ -16,9 +16,9 @@ app.use(serveStatic(__dirname + "/../dist"))
 
 app.listen(process.env.PORT || 8081)
 
-const credentials = require('../credentials.json')
+const credentials = process.env.dbAccessToken || require('../credentials.json').dbAccessToken
 
-const dbx = new Dropbox({ accessToken: credentials.dbAccessToken });
+const dbx = new Dropbox({ accessToken: credentials });
 
 
 app.get('/posts', (req, res) => {
