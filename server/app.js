@@ -12,7 +12,7 @@ const Dropbox = require('dropbox').Dropbox;
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())
-app.use(serveStatic(__dirname + "/../client"))
+app.use(serveStatic(__dirname + "/../dist"))
 
 app.listen(process.env.PORT || 8081)
 

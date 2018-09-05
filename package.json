@@ -1,12 +1,65 @@
 {
   "name": "story",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server/src/app.js",
-  "scripts": {
-    "start": "node ./server/src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "0.1.0",
+  "private": true,
   "author": "Salmiak <alfred@salmiakmedia.se>",
-  "license": "ISC"
+  "scripts": {
+    "start": "node ./server/app.js",
+    "server": "nodemon ./server/app.js",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dropbox": "^4.0.9",
+    "express": "^4.16.3",
+    "isomorphic-fetch": "^2.2.1",
+    "js-yaml": "^3.12.0",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "reset-css": "^4.0.1",
+    "run-parallel": "^1.1.9",
+    "vue": "^2.5.17",
+    "vue-carousel": "^0.12.0",
+    "vue-markdown": "^2.2.4",
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "@vue/eslint-config-standard": "^3.0.1",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.17",
+    "nodemon": "^1.18.4"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
