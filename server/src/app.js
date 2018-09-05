@@ -22,7 +22,6 @@ const dbx = new Dropbox({ accessToken: credentials.dbAccessToken });
 app.get('/posts', (req, res) => {
   dbx.filesListFolder({path: ''})
     .then((response) => {
-      console.log(response)
       res.send(_.chain(response.entries)
         .filter({'.tag': 'folder'})
         .map((folder) => {
