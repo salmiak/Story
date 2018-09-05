@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "moment": "^2.22.2",
+    "momentum": "^4.0.0",
     "reset-css": "^4.0.1",
     "vue": "^2.5.17",
     "vue-carousel": "^0.12.0",

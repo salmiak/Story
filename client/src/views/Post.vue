@@ -11,14 +11,17 @@
 
     <div class="bodyContent">
       <h1>{{title}}</h1>
+      <div v-if="date" class="postDate">&mdash; {{date}} &mdash;</div>
       <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import VueMarkdown from 'vue-markdown'
 import { Carousel, Slide } from 'vue-carousel'
+
 export default {
   name: 'post',
   components: {
@@ -48,6 +51,13 @@ export default {
         return ''
       }
       return this.post.info.Name || this.post.name
+    },
+    date () {
+      if (!this.post.name || !this.post.info.Date) {
+        return false
+      }
+      moment.locale('sv')
+      return moment(this.post.info.Date).format("ll")
     },
     containerStyle () {
       if (!this.post.name) {
@@ -103,12 +113,18 @@ img {
 }
 .bodyContent {
   position: relative;
-  max-width: 600px;
-  width: 90vw;
-  margin: -25px auto 0;
+  max-width: 650px;
+  width: 96vw;
+  margin: -15px auto 0;
   background: #FFF;
-  border-radius: 10px;
+  border-radius: 4px;
   z-index: 400;
   padding: 10px 20px 30px;
 }
+.postDate {
+  text-align: center;
+  margin-bottom: 1.2rem;
+  font-size: 0.7rem;
+}
+
 </style>

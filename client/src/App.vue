@@ -9,10 +9,11 @@
 
 <style lang="less">
 @import (css) url('https://rsms.me/inter/inter-ui.css');
+@import (css) url('https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i');
 @import '../node_modules/reset-css/less/reset';
 * { box-sizing: border-box; }
 html {
-  font-size: 16px;
+  font-size: 22px;
   line-height: 1.5em;
   letter-spacing: -0,004em;
 }
@@ -24,7 +25,7 @@ body {
   font-family: 'Inter UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: lighten(#2c3e50, 10%);
 }
 #nav {
   position: fixed;
@@ -44,10 +45,23 @@ body {
   }
 }
 h1 {
-  font-size: 2rem;
-  margin: 1rem;
-  font-weight: 800;
+  font-size: 3rem;
+  margin: 2rem 0 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   text-align: center;
-  color: lighten(#2c3e50, 20%);
+  color: #2c3e50;
+}
+p {
+  line-height: 1.5em;
+  margin-bottom: 1.3em;
+  font-family: 'Merriweather', serif;
+  font-weight: 300;
+  opacity: 0.87;
+  &:first-of-type {
+    font-size: 1.2rem;
+    font-style: italic;
+    opacity: 0.54;
+  }
 }
 </style>
