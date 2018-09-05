@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/"><i class="fa fa-arrow-left" /></router-link>
+      <router-link v-if="$route.name!=='home'" to="/"><i class="fa fa-arrow-left" /></router-link>
     </div>
     <router-view/>
   </div>
