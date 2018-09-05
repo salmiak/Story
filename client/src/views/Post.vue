@@ -57,7 +57,7 @@ export default {
         return false
       }
       moment.locale('sv')
-      return moment(this.post.info.Date).format("ll")
+      return moment(this.post.info.Date).format('ll')
     },
     containerStyle () {
       if (!this.post.name) {
