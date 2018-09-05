@@ -16,13 +16,19 @@ html {
   font-size: 22px;
   line-height: 1.5em;
   letter-spacing: -0,004em;
+  background: darken(#2c3e50, 5%);
 }
 body {
   padding: 0;
   margin: 0;
+  background: #F9F9F9;
+  padding-bottom: 20px;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 #app {
   font-family: 'Inter UI', sans-serif;
+  font-feature-settings: "calt", "ss01", "case";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: lighten(#2c3e50, 10%);

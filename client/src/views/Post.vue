@@ -85,14 +85,18 @@ img {
 }
 .carouselContainer {
   width: 100vw;
+  min-height: 30vh;
   background: #9AA;
+  background-image: svg-gradient(to bottom right, lighten(#9AA, 10%), darken(#9AA, 10%));
+  background-size: cover;
   position: relative;
+  overflow: hidden;
   .bgImage {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: -20px;
+    bottom: -20px;
+    left: -20px;
+    right: -20px;
     z-index: 0;
     background-size: cover;
     background-position: 50% 50%;
@@ -119,7 +123,7 @@ img {
   background: #FFF;
   border-radius: 4px;
   z-index: 400;
-  padding: 10px 20px 30px;
+  padding: 10px 20px 10px;
 }
 .postDate {
   text-align: center;
