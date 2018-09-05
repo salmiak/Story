@@ -3,7 +3,7 @@
     <div class="carouselContainer">
       <carousel :perPage="1" :paginationEnabled="false" :navigationEnabled="true" @pageChange="updateCurrentImgIndex">
         <slide v-for="img in post.images" :key="img.$index" class="imgSlide">
-          <img :src="'http://localhost:8081/image/w1024h768' + img"  />
+          <img :src="$http.options.root + '/image/w1024h768' + img"  />
         </slide>
       </carousel>
       <div class="bgImage" v-bind:style="containerStyle" />
@@ -64,7 +64,7 @@ export default {
         return {}
       }
       return {
-        'background-image': 'url(\'http://localhost:8081/image/w1024h768' + this.post.images[this.currentImgIndex] + '\')'
+        'background-image': 'url(\'' + this.$http.options.root + '/image/w1024h768' + this.post.images[this.currentImgIndex] + '\')'
       }
     }
   },
