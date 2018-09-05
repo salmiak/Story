@@ -7,7 +7,8 @@ Vue.config.productionTip = false
 
 Vue.use(VueResource)
 // Vue.http.options.root = 'http://localhost:8081'
-Vue.http.options.root = 'http://' + window.location.hostname + ':8081'
+var hostArr = window.location.href.split('/')
+Vue.http.options.root = hostArr[0] + "//" + hostArr[2]
 
 new Vue({
   router,
