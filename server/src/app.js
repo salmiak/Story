@@ -5,12 +5,14 @@ const yaml = require('js-yaml')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const serveStatic = require('serve-static');
 require('isomorphic-fetch');
 const Dropbox = require('dropbox').Dropbox;
 
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())
+app.use(serveStatic(__dirname + "/../client"))
 
 app.listen(process.env.PORT || 8081)
 
