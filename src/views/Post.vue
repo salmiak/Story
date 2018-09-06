@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="carouselContainer">
-      <carousel :perPage="1" :paginationEnabled="false" :navigationEnabled="true" @pageChange="updateCurrentImgIndex">
+      <carousel v-if="post.images && post.images.length" :perPage="1" :paginationEnabled="false" :navigationEnabled="true" @pageChange="updateCurrentImgIndex">
         <slide v-for="img in post.images" :key="img.$index" class="imgSlide">
           <img :src="$http.options.root + '/image/w1024h768' + img"  />
         </slide>
@@ -11,7 +11,7 @@
 
     <div class="bodyContent">
       <h1>{{title}}</h1>
-      <div v-if="date" class="postDate">&mdash; {{date}} &mdash;</div>
+      <div v-if="post.info.Date" class="postDate">&mdash; {{post.info.Date | formatDate}} &mdash;</div>
       <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
     </div>
   </div>
@@ -51,13 +51,6 @@ export default {
         return ''
       }
       return this.post.info.Name || this.post.name
-    },
-    date () {
-      if (!this.post.name || !this.post.info.Date) {
-        return false
-      }
-      moment.locale('sv')
-      return moment(this.post.info.Date).format('ll')
     },
     containerStyle () {
       if (!this.post.name) {

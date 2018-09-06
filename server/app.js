@@ -1,6 +1,7 @@
 const parallel = require('run-parallel')
 const _ = require('lodash')
 const yaml = require('js-yaml')
+const { getFileExt } = require('./utils')
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -20,22 +21,79 @@ const credentials = process.env.dbAccessToken || require('../credentials.json').
 
 const dbx = new Dropbox({ accessToken: credentials });
 
-
 app.get('/posts', (req, res) => {
   dbx.filesListFolder({path: ''})
     .then((response) => {
-      res.send(_.chain(response.entries)
+      parallel(_.chain(response.entries)
         .filter({'.tag': 'folder'})
         .map((folder) => {
-          return {
-            name: folder.name,
-            path: folder.path_lower
+          return (callback) => {
+
+            dbx.filesListFolder({
+              path: folder.path_lower,
+              include_media_info: true
+            })
+              .then((response) => {
+
+                var imageInfo = _.chain(response.entries)
+                  .filter((file) => { return getFileExt(file.name) === 'jpg' })
+                  .sortBy((file) => { return (new Date( file.media_info.metadata.time_taken)).getTime() })
+                  .head()
+                  .value()
+
+                var postFile = _.chain(response.entries)
+                  .filter((file) => { return getFileExt(file.name) === 'md' })
+                  .head()
+                  .value()
+
+                var payload = {
+                  postFile: postFile,
+                  firstImage: imageInfo,
+                  date: imageInfo?new Date(imageInfo.media_info.metadata.time_taken):null,
+                  name: folder.name,
+                  path: folder.path_lower
+                }
+
+                if (postFile) {
+                  dbx.filesDownload({path: postFile.path_lower})
+                  .then((response) => {
+
+                    var postInfoArray = response.fileBinary.toString('utf8').split('///')
+
+                    if (postInfoArray.length > 1) {
+                      payload.info = yaml.load(_.trim(postInfoArray[0]))
+                    }
+                    if (payload.info.Date) {
+                      payload.date = new Date(payload.info.Date)
+                    }
+
+                    callback(null, payload)
+                  })
+                  .catch((err) => {
+                    console.error(err)
+                  })
+                } else {
+                  callback(null, payload)
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+              })
           }
         })
-        .value())
+        .value(),
+      (err, results) => {
+        results = _.chain(results)
+          .sortBy((folder) => {
+            return folder.date.getTime()
+          })
+          .reverse()
+          .value()
+        res.send(results)
+      })
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error)
     });
 });
 
@@ -65,17 +123,15 @@ app.get('/posts/:path', (req, res) => {
   ],
   (err, results) => {
 
-    var re = /(?:\.([^.]+))?$/;  // Expression that gets file extension
-
     var images = _
       .chain(results[1].entries)
-      .filter((file) => { return re.exec(file.name)[1] === 'jpg'})
+      .filter((file) => { return getFileExt(file.name) === 'jpg'})
       .map("path_lower")
       .value().sort()
 
     var infoFile = _
       .chain(results[1].entries)
-      .find((file) => { return re.exec(file.name)[1] === 'md'})
+      .find((file) => { return getFileExt(file.name) === 'md'})
       .value()
 
     var toSend = {

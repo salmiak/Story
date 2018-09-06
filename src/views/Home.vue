@@ -5,7 +5,7 @@
     </div>
     <ul class="posts">
       <li v-for="post in posts" :key="post.$index">
-        <router-link :to="'/post' + post.path">{{post.name}}</router-link>
+        <router-link :to="'/post' + post.path">{{post.name}} <span class="smallDate">{{post.date | formatDate}}</span></router-link>
       </li>
     </ul>
   </div>
@@ -55,6 +55,12 @@ export default {
     a {
       color: inherit;
       text-decoration: none;
+    }
+    .smallDate {
+      font-size: .8rem;
+      font-weight: 300;
+      letter-spacing: 0.004em;
+      opacity: 0.54;
     }
   }
 }
