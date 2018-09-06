@@ -52,7 +52,7 @@ app.get('/posts/:path', (req, res) => {
           console.error(error)
         })
     },
-    // Images
+    // Content
     (callback) => {
       dbx.filesListFolder({path: '/'+req.params.path})
         .then((response) => {

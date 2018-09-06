@@ -10,6 +10,7 @@
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
     - Last slide points to next post
+  - Navigate images with arrow-keys
   - Nicer front page showing X first posts
   - Sort home page based on date in post or date of first image in series
   - Infinit scroll on front page
