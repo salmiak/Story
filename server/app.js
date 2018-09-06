@@ -85,7 +85,7 @@ app.get('/posts', (req, res) => {
       (err, results) => {
         results = _.chain(results)
           .sortBy((folder) => {
-            return folder.date.getTime()
+            return folder.date?folder.date.getTime():0
           })
           .reverse()
           .value()

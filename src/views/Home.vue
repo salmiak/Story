@@ -5,6 +5,7 @@
     </div>
     <ul class="posts">
       <li v-for="post in posts" :key="post.$index">
+        <img v-if="post.firstImage" :src="$http.options.root + '/image/w64h64' + post.firstImage.path_lower"  /> 
         <router-link :to="'/post' + post.path">{{post.name}} <span class="smallDate">{{post.date | formatDate}}</span></router-link>
       </li>
     </ul>
