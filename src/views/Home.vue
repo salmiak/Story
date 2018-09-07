@@ -80,8 +80,6 @@ export default {
       z-index: 100;
       position: relative;
       transition: all .3s;
-      left: 0;
-      letter-spacing: inherit;
     }
     .smallDate {
       font-size: .8rem;
@@ -89,6 +87,7 @@ export default {
       letter-spacing: 0.004em;
       opacity: 0.54;
       white-space: nowrap;
+      transition: all .3s;
     }
     .postCover {
       position: absolute;
@@ -104,13 +103,12 @@ export default {
       transition: all .5s;
     }
     &.onDesktop:hover {
-      padding: 2*3rem 1rem 2*.75rem;
+      padding: 3*3rem 1rem .75rem;
       .postTitle {
-        left: -1.5em;
-        letter-spacing: -.5em;
+        opacity: 0.35;
       }
       .smallDate {
-        letter-spacing: -.5em;
+        opacity: 0.35;
       }
       .postCover {
         filter: blur(0);
