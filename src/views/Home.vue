@@ -4,7 +4,7 @@
       <h1>The Beckman's Story</h1>
     </div>
     <ul class="posts">
-      <li v-for="post in posts" :key="post.$index">
+      <li v-for="post in posts" :key="post.$index" :class="{onDesktop: !isMobile}">
         <router-link :to="'/post' + post.path">
           <div v-if="post.firstImage" v-bind:style=" { 'backgroundImage' : 'url(\'' + $http.options.root + '/image/w960h640' + post.firstImage.path_lower + '\')' }" class="postCover" />
           <span class="postTitle">{{post.name}} <span class="smallDate">{{post.date | formatDate}}</span></span>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import MobileDetect from 'mobile-detect'
 
 export default {
   name: 'home',
@@ -30,6 +31,12 @@ export default {
       // error callback
       console.error(err)
     })
+  },
+  computed: {
+    isMobile () {
+      var md = new MobileDetect(window.navigator.userAgent)
+      return md.mobile()
+    }
   }
 }
 </script>
@@ -96,7 +103,7 @@ export default {
       filter: blur(5px);
       transition: all .5s;
     }
-    &:hover {
+    &.onDesktop:hover {
       padding: 2*3rem 1rem 2*.75rem;
       .postTitle {
         left: -1.5em;

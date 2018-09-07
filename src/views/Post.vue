@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import VueMarkdown from 'vue-markdown'
 import { Carousel, Slide } from 'vue-carousel'
 
