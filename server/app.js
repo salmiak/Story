@@ -56,15 +56,22 @@ app.get('/posts', (req, res) => {
 
                 if (postFile) {
                   dbx.filesDownload({path: postFile.path_lower})
-                  .then((response) => {
+                  .then((postFileResponse) => {
 
-                    var postInfoArray = response.fileBinary.toString('utf8').split('///')
+                    var postInfoArray = postFileResponse.fileBinary.toString('utf8').split('///')
 
                     if (postInfoArray.length > 1) {
                       payload.info = yaml.load(_.trim(postInfoArray[0]))
                     }
                     if (payload.info.Date) {
                       payload.date = new Date(payload.info.Date)
+                    }
+                    if (payload.info.cover) {
+                      coverImage = _.chain(response.entries)
+                        .filter((file) => { return file.name.search(payload.info.cover) !== -1 })
+                        .head()
+                        .value()
+                      payload.firstImage = coverImage || payload.firstImage
                     }
 
                     callback(null, payload)

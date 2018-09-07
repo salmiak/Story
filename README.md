@@ -3,16 +3,12 @@
 ## ToDo
 - Add OAuth to Dropbox
 
-- Publish (on heroku)
-- Combine client/dist and backend into one server
-
 - Client:
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
     - Last slide points to next post
   - Navigate images with arrow-keys
-  - Nicer front page showing X first posts
-  - Sort home page based on date in post or date of first image in series
+  - Make keys in post.md case neutral
   - Infinit scroll on front page
 
 - Endpoints:
