@@ -5,8 +5,10 @@
     </div>
     <ul class="posts">
       <li v-for="post in posts" :key="post.$index">
-        <img v-if="post.firstImage" :src="$http.options.root + '/image/w64h64' + post.firstImage.path_lower"  /> 
-        <router-link :to="'/post' + post.path">{{post.name}} <span class="smallDate">{{post.date | formatDate}}</span></router-link>
+        <router-link :to="'/post' + post.path">
+          <div v-if="post.firstImage" v-bind:style=" { 'backgroundImage' : 'url(\'' + $http.options.root + '/image/w960h640' + post.firstImage.path_lower + '\')' }" class="postCover" />
+          <span class="postTitle">{{post.name}} <span class="smallDate">{{post.date | formatDate}}</span></span>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -47,21 +49,70 @@ export default {
 }
 .posts {
   > li {
+    position: relative;
     list-style: none;
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
     letter-spacing: -.04em;
-    margin: 0 0 1rem;
+    margin: .5rem auto;
+    padding: 3rem 1rem .75rem;
+    width: 95vw;
+    max-width: 650px;
+    text-align: left;
+    background: lighten(#2c3e50, 10%);
+    overflow: hidden;
+    border-radius: 4px;
+    transition: all .3s;
     a {
-      color: inherit;
       text-decoration: none;
+    }
+    .postTitle {
+      color: #FFF;
+      text-decoration: none;
+      z-index: 100;
+      position: relative;
+      transition: all .3s;
+      left: 0;
+      letter-spacing: inherit;
     }
     .smallDate {
       font-size: .8rem;
       font-weight: 300;
       letter-spacing: 0.004em;
       opacity: 0.54;
+      white-space: nowrap;
+    }
+    .postCover {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      z-index: 0;
+      background-size: cover;
+      background-position: 50% 50%;
+      opacity: 0.54;
+      filter: blur(5px);
+      transition: all .5s;
+    }
+    &:hover {
+      padding: 2*3rem 1rem 2*.75rem;
+      .postTitle {
+        left: -1.5em;
+        letter-spacing: -.5em;
+      }
+      .smallDate {
+        letter-spacing: -.5em;
+      }
+      .postCover {
+        filter: blur(0);
+        opacity: 1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
     }
   }
 }
