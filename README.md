@@ -8,7 +8,6 @@
     - Links next to content (or at bottom of text)
     - Last slide points to next post
   - Navigate images with arrow-keys
-  - Make keys in post.md case neutral
   - Infinit scroll on front page
 
 - Endpoints:

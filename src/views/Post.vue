@@ -11,7 +11,7 @@
 
     <div class="bodyContent">
       <h1>{{title}}</h1>
-      <div v-if="post.info.Date" class="postDate">&mdash; {{post.info.Date | formatDate}} &mdash;</div>
+      <div v-if="post.info.date" class="postDate">&mdash; {{post.info.date | formatDate}} &mdash;</div>
       <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
     </div>
   </div>
@@ -49,7 +49,7 @@ export default {
       if (!this.post.name) {
         return ''
       }
-      return this.post.info.Name || this.post.name
+      return this.post.info.title || this.post.info.name || this.post.name
     },
     containerStyle () {
       if (!this.post.name) {

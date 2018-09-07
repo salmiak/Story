@@ -61,7 +61,7 @@ app.get('/posts', (req, res) => {
                     var postInfoArray = postFileResponse.fileBinary.toString('utf8').split('///')
 
                     if (postInfoArray.length > 1) {
-                      payload.info = yaml.load(_.trim(postInfoArray[0]))
+                      payload.info = _.mapKeys(yaml.load(_.trim(postInfoArray[0])), (v, k) => { return k.toLowerCase() })
                     }
                     if (payload.info.Date) {
                       payload.date = new Date(payload.info.Date)
@@ -155,7 +155,7 @@ app.get('/posts/:path', (req, res) => {
         var postInfoArray = response.fileBinary.toString('utf8').split('///')
 
         if (postInfoArray.length > 1) {
-          toSend.info = yaml.load(_.trim(postInfoArray[0]))
+          toSend.info = _.mapKeys(yaml.load(_.trim(postInfoArray[0])), (v, k) => { return k.toLowerCase() })
           toSend.post = _.trim(postInfoArray[1])
         } else {
           toSend.post = _.trim(postInfoArray[0])
