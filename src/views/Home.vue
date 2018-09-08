@@ -46,14 +46,16 @@ export default {
 <style lang="less" scoped>
 .hero {
   background: lighten(#2c3e50, 10%);
-  background-image: svg-gradient(to bottom right, lighten(#2c3e50, 3%), darken(#2c3e50, 3%));
+  background-image: svg-gradient(to bottom right, lighten(saturate(#9AA, 30%), 10%), lighten(saturate(#9AA, 30%), 30%));
   background-size: cover;
-  color: #FFF;
-  padding: 5vh 0;
+  color: lighten(#2c3e50, 100%);
+  padding: 2vh 0;
   margin: 0 0 5vh;
   text-align: center;
   h1 {
-    color: #FFF;
+    color: inherit;
+    opacity: 0.87;
+    text-shadow: 0 2px 18px fade(darken(saturate(#9AA, 50%), 20%), 60%);
   }
 }
 .posts {

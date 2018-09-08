@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="progressBar">
+      <div class="progressBarIndicator" :style="{width: sliderProgress+'%'}" />
+    </div>
     <div class="carouselContainer">
       <carousel v-if="post.images && post.images.length" :perPage="1" :paginationEnabled="false" :navigationEnabled="true" @pageChange="updateCurrentImgIndex">
 
@@ -79,6 +82,12 @@ export default {
         return undefined
       }
       return this.$root.posts[index + 1]
+    },
+    sliderProgress () {
+      if (!this.post.images) {
+        return 0
+      }
+      return 100 * (this.currentImgIndex + 1) / this.post.images.length
     }
   },
   methods: {
@@ -90,6 +99,24 @@ export default {
 </script>
 
 <style lang="less">
+.progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  height: 3px;
+  background: darken(#9AA, 10%);
+  &Indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    transition: width 0.7s;
+    background: lighten(saturate(#9AA, 70%), 10%);
+  }
+}
 img {
   max-width: calc(100vw - 60px);
   max-height: 100vh;
