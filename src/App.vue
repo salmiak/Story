@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link v-if="$route.name!=='home'" to="/"><i class="fa fa-arrow-left" /></router-link>
     </div>
-    <router-view/>
+    <router-view :key="$route.fullPath"/>
   </div>
 </template>
 
@@ -53,8 +53,16 @@ body {
 h1 {
   font-size: 3rem;
   margin: 2rem 0 2rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  text-align: center;
+  color: #2c3e50;
+}
+h2 {
+  font-size: 3rem;
+  margin: 2rem 0 2rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
   text-align: center;
   color: #2c3e50;
 }

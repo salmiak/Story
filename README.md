@@ -4,9 +4,9 @@
 - Add OAuth to Dropbox
 
 - Client:
+  - Responsive font (and margin) size
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
-    - Last slide points to next post
   - Navigate images with arrow-keys
   - Infinit scroll on front page
 

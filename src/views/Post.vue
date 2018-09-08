@@ -2,9 +2,20 @@
   <div>
     <div class="carouselContainer">
       <carousel v-if="post.images && post.images.length" :perPage="1" :paginationEnabled="false" :navigationEnabled="true" @pageChange="updateCurrentImgIndex">
+
         <slide v-for="img in post.images" :key="img.$index" class="imgSlide">
           <img :src="$http.options.root + '/image/w1024h768' + img"  />
         </slide>
+
+        <slide v-if="nextPost">
+          <div class="lastSlideContent">
+            <p>Next post</p>
+            <h2>
+              <router-link :to="'/post' + nextPost.path">{{nextPost.name}}</router-link>
+            </h2>
+          </div>
+        </slide>
+
       </carousel>
       <div class="bgImage" v-bind:style="containerStyle" />
     </div>
@@ -18,6 +29,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import VueMarkdown from 'vue-markdown'
 import { Carousel, Slide } from 'vue-carousel'
 
@@ -58,11 +70,20 @@ export default {
       return {
         'background-image': 'url(\'' + this.$http.options.root + '/image/w1024h768' + this.post.images[this.currentImgIndex] + '\')'
       }
+    },
+    nextPost () {
+      var index = _.findIndex(this.$root.posts, (post) => {
+        return post.path === '/' + this.$route.params.path
+      })
+      if (index === -1) {
+        return undefined
+      }
+      return this.$root.posts[index + 1]
     }
   },
   methods: {
     updateCurrentImgIndex (index) {
-      this.currentImgIndex = index
+      this.currentImgIndex = Math.min(index, this.post.images.length - 1)
     }
   }
 }
@@ -101,6 +122,11 @@ img {
   z-index: 100;
   width: calc(100vw - 60px);
   margin: 0 auto;
+  &-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .imgSlide {
   display: flex;
@@ -121,6 +147,14 @@ img {
   text-align: center;
   margin-bottom: 1.2rem;
   font-size: 0.7rem;
+}
+.lastSlideContent {
+  text-align: center;
+  color: #FFF;
+  a {
+    color: #FFF;
+    text-decoration: none;
+  }
 }
 
 </style>

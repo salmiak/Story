@@ -26,7 +26,9 @@ export default {
   },
   mounted () {
     this.$http.get('posts').then(response => {
+      this.$root.posts = response.body
       this.posts = response.body
+      console.log(this.$root)
     }, err => {
       // error callback
       console.error(err)
@@ -60,7 +62,7 @@ export default {
     list-style: none;
     text-align: center;
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 900;
     letter-spacing: -.04em;
     margin: .5rem auto;
     padding: 3rem 1rem .75rem;
