@@ -5,6 +5,7 @@
 
 - Client:
   - Responsive font (and margin) size
+  - Read Exif-data from image and show on img
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
   - Navigate images with arrow-keys
