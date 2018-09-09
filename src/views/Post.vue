@@ -120,7 +120,7 @@ export default {
   right: 0;
   z-index: 200;
   height: 3px;
-  background: darken(#9AA, 10%);
+  background: fade(darken(#9AA, 10%), 25%);
   &Indicator {
     position: absolute;
     top: 0;
@@ -145,6 +145,7 @@ img {
   background-size: cover;
   position: relative;
   overflow: hidden;
+  padding: 10px 0 25px;
   .bgImage {
     position: absolute;
     top: -20px;
@@ -167,6 +168,9 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    > img {
+      border-radius: 4px;
+    }
   }
 }
 .imgSlide {

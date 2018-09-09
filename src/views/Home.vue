@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <div class="progressBar" />
     <div class="hero">
       <h1>Familjen Beckman</h1>
     </div>
@@ -44,6 +45,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  height: 3px;
+  background: fade(darken(#9AA, 10%), 25%);
+}
 .hero {
   background: lighten(#2c3e50, 10%);
   background-image: svg-gradient(to bottom right, lighten(saturate(#9AA, 30%), 10%), lighten(saturate(#9AA, 30%), 30%));
