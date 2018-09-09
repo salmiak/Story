@@ -24,7 +24,7 @@
     </div>
 
     <div class="bodyContent">
-      <h1>{{title}}</h1>
+      <h1>{{title || 'Loading...'}}</h1>
       <div v-if="post.info.date" class="postDate">&mdash; {{post.info.date | formatDate}} &mdash;</div>
       <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
     </div>
@@ -183,7 +183,7 @@ img {
   border-radius: 4px;
   z-index: 400;
   padding: 10px 20px 10px;
-  box-shadow: 0 0 35px fade(darken(saturate(#9AA, 40%), 20%), 40%), 0 0 0 1px #FFF inset;
+  box-shadow: 0 0 35px fade(darken(saturate(#9AA, 40%), 25%), 15%), 0 0 0 1px #FFF inset;
 }
 .postDate {
   text-align: center;
