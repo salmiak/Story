@@ -4,7 +4,7 @@
       <div class="progressBarIndicator" :style="{width: sliderProgress+'%'}" />
     </div>
     <div class="carouselContainer">
-      <carousel v-if="post.images && post.images.length" :perPage="1" :paginationEnabled="false" :navigationEnabled="true" @pageChange="updateCurrentImgIndex">
+      <carousel v-if="post.images && post.images.length" :perPage="1" :paginationEnabled="false" :navigationEnabled="true" @pageChange="updateCurrentImgIndex" ref="imageCarousel">
 
         <slide v-for="img in post.images" :key="img.$index" class="imgSlide">
           <img :src="$http.options.root + '/image/w1024h768' + img"  />
@@ -51,13 +51,17 @@ export default {
       currentImgIndex: 0
     }
   },
-  mounted () {
+  beforeCreate () {
     this.$http.get('posts/' + this.$route.params.path).then(response => {
       this.post = response.body
+      window.addEventListener('keyup', this.keyPress)
     }, err => {
       // error callback
       console.error(err)
     })
+  },
+  beforeDestroy () {
+    window.removeEventListener('keyup', this.keyPress)
   },
   computed: {
     title () {
@@ -93,6 +97,16 @@ export default {
   methods: {
     updateCurrentImgIndex (index) {
       this.currentImgIndex = Math.min(index, this.post.images.length - 1)
+    },
+    keyPress (e) {
+      if (e.keyCode === 37) {
+        console.log('left')
+        this.$refs.imageCarousel.advancePage('backward')
+      }
+      if (e.keyCode === 39) {
+        console.log('right')
+        this.$refs.imageCarousel.advancePage('forward')
+      }
     }
   }
 }
