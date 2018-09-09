@@ -1,6 +1,7 @@
 const parallel = require('run-parallel')
 const _ = require('lodash')
 const yaml = require('js-yaml')
+const ExifImage = require('exif').ExifImage
 const { getFileExt } = require('./utils')
 
 const express = require('express')
@@ -184,5 +185,28 @@ app.get('/image/:size*', (req, res) => {
   })
   .catch(function(error) {
     console.error(error);
-  });;
+  })
+})
+
+app.get('/exif*', (req, res) => {
+  dbx.filesDownload({
+    path: req.params[0]
+  })
+  .then(function(response) {
+
+    try {
+      new ExifImage({ image : response.fileBinary }, function (error, exifData) {
+        if (error)
+          console.log('Error: '+error.message);
+        else
+          // console.log(exifData); // Do something with your data!
+          res.send(exifData)
+      });
+    } catch (error) {
+      console.log('Error: ' + error.message);
+    }
+  })
+  .catch(function(error) {
+    console.error(error);
+  })
 })

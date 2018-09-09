@@ -8,6 +8,7 @@
 
         <slide v-for="img in post.images" :key="img.$index" class="imgSlide">
           <img :src="$http.options.root + '/image/w1024h768' + img"  />
+          <exif :path="img" />
         </slide>
 
         <slide v-if="nextPost">
@@ -24,7 +25,7 @@
     </div>
 
     <div class="bodyContent">
-      <h1>{{title || 'Loading...'}}</h1>
+      <h1>{{title||'Loading...'}}</h1>
       <div v-if="post.info.date" class="postDate">&mdash; {{post.info.date | formatDate}} &mdash;</div>
       <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
     </div>
@@ -35,13 +36,15 @@
 import _ from 'lodash'
 import VueMarkdown from 'vue-markdown'
 import { Carousel, Slide } from 'vue-carousel'
+import Exif from '@/components/Exif'
 
 export default {
   name: 'post',
   components: {
     VueMarkdown,
     Carousel,
-    Slide
+    Slide,
+    Exif
   },
   data () {
     return {
@@ -100,11 +103,9 @@ export default {
     },
     keyPress (e) {
       if (e.keyCode === 37) {
-        console.log('left')
         this.$refs.imageCarousel.advancePage('backward')
       }
       if (e.keyCode === 39) {
-        console.log('right')
         this.$refs.imageCarousel.advancePage('forward')
       }
     }
@@ -145,7 +146,7 @@ img {
   background-size: cover;
   position: relative;
   overflow: hidden;
-  padding: 10px 0 25px;
+  padding: 10px 0 15px;
   .bgImage {
     position: absolute;
     top: -20px;
@@ -170,6 +171,13 @@ img {
     align-items: center;
     > img {
       border-radius: 4px;
+    }
+    .exif {
+      transform: translateY(5rem);
+      transition: transform .5s;
+    }
+    &:hover .exif {
+      transform: translateY(0);
     }
   }
 }
