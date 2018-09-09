@@ -4,12 +4,10 @@
 - Add OAuth to Dropbox
 
 - Client:
-  - Responsive font (and margin) size
   - Read Exif-data from image and show on img
   - Image grid as optional layout
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
-  - Navigate images with arrow-keys
   - Infinit scroll on front page
 
 - Endpoints:
@@ -17,6 +15,7 @@
   x posts
   x post
   x image
+  - refactor and send complete file-list on request and use VueStore on client side
 
 ## Notes
 
