@@ -165,10 +165,11 @@ img {
   max-width: 650px;
   width: 96vw;
   margin: -15px auto 0;
-  background: #FFF;
+  background: #F9F9F9;
   border-radius: 4px;
   z-index: 400;
   padding: 10px 20px 10px;
+  box-shadow: 0 0 35px fade(darken(saturate(#9AA, 40%), 20%), 40%), 0 0 0 1px #FFF inset;
 }
 .postDate {
   text-align: center;

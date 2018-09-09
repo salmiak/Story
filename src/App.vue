@@ -15,14 +15,22 @@
 html {
   font-size: 22px;
   line-height: 1.5em;
-  letter-spacing: -0,004em;
+  letter-spacing: -0.004em;
   background: darken(#2c3e50, 5%);
+  @media (max-device-width : 420px) {
+    font-size: 18px;
+    letter-spacing: 0,001em;
+  }
+  @media (max-device-width : 320px) {
+    font-size: 14px;
+    letter-spacing: 0,008em;
+  }
 }
 body {
   padding: 0;
   margin: 0;
-  background: #F9F9F9;
-  padding-bottom: 20px;
+  background: #F5F5F5;
+  padding-bottom: 40px;
   min-height: 100vh;
   min-width: 100vw;
 }

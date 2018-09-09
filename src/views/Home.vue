@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="hero">
-      <h1>The Beckman's Story</h1>
+      <h1>Familjen Beckman</h1>
     </div>
     <ul class="posts">
       <li v-for="post in posts" :key="post.$index" :class="{onDesktop: !isMobile}">
