@@ -19,16 +19,30 @@ export default {
   props: ['path'],
   data () {
     return {
-      exifData: undefined
+      exifData: undefined,
+      request: undefined
     }
   },
   mounted () {
-    this.$http.get('exif' + this.path).then(response => {
+    this.$http.get('exif' + this.path, {
+      before (req) {
+        if (this.request) {
+          this.request.abort()
+        }
+        this.request = req
+      }
+    }).then(response => {
       this.exifData = response.body
+      this.request = undefined
     }, err => {
       // error callback
       console.error(err)
     })
+  },
+  beforeDestroy () {
+    if (this.request) {
+      this.request.abort()
+    }
   },
   computed: {
     formatDateTime () {
