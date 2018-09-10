@@ -25,7 +25,7 @@ export default {
       posts: []
     }
   },
-  beforeCreate () {
+  mounted () {
     this.$http.get('posts').then(response => {
       this.$root.posts = response.body
       this.posts = response.body

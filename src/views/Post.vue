@@ -54,7 +54,7 @@ export default {
       currentImgIndex: 0
     }
   },
-  beforeCreate () {
+  mounted () {
     this.$http.get('posts/' + this.$route.params.path).then(response => {
       this.post = response.body
       window.addEventListener('keyup', this.keyPress)
