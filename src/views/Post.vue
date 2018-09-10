@@ -24,7 +24,7 @@
       <div class="bgImage" v-bind:style="containerStyle" />
     </div>
 
-    <div class="bodyContent">
+    <div class="bodyContent" :class="{'small':!post.post}">
       <h1>{{title||'Loading...'}}</h1>
       <div v-if="post.info.date" class="postDate">&mdash; {{post.info.date | formatDate}} &mdash;</div>
       <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
@@ -55,9 +55,9 @@ export default {
     }
   },
   mounted () {
+    window.addEventListener('keyup', this.keyPress)
     this.$http.get('posts/' + this.$route.params.path).then(response => {
       this.post = response.body
-      window.addEventListener('keyup', this.keyPress)
     }, err => {
       // error callback
       console.error(err)
@@ -196,6 +196,14 @@ img {
   z-index: 400;
   padding: 10px 20px 10px;
   box-shadow: 0 0 35px fade(darken(saturate(#9AA, 40%), 25%), 15%), 0 0 0 1px #FFF inset;
+  &.small {
+    padding: 10px 20px 10px;
+    h1 {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin: .5rem;
+    }
+  }
 }
 .postDate {
   text-align: center;

@@ -5,7 +5,10 @@
       <h1>Familjen Beckman</h1>
     </div>
     <ul class="posts">
-      <li v-for="post in posts" :key="post.$index" :class="{onDesktop: !isMobile}">
+      <li v-if="posts.length === 0" class="loadingPost">
+        Loading...
+      </li>
+      <li v-for="post in posts" :key="post.$index" class="post" :class="{onDesktop: !isMobile}">
         <router-link :to="'/post' + post.path">
           <div v-if="post.firstImage" v-bind:style=" { 'backgroundImage' : 'url(\'' + $http.options.root + '/image/w960h640' + post.firstImage.path_lower + '\')' }" class="postCover" />
           <span class="postTitle">{{post.name}} <span class="smallDate">{{post.date | formatDate}}</span></span>
@@ -73,18 +76,24 @@ export default {
     position: relative;
     list-style: none;
     text-align: center;
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: -.04em;
     margin: .5rem auto;
-    padding: 3rem 1rem .75rem;
     width: 95vw;
     max-width: 650px;
-    text-align: left;
-    background: lighten(#2c3e50, 10%);
-    overflow: hidden;
-    border-radius: 4px;
-    transition: all .3s;
+    &.loadingPost {
+      font-style: italic;
+      opacity: 0.54;
+    }
+    &.post {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      padding: 3rem 1rem .75rem;
+      text-align: left;
+      background: lighten(#2c3e50, 10%);
+      overflow: hidden;
+      border-radius: 4px;
+      transition: all .3s;
+    }
     a {
       text-decoration: none;
     }
