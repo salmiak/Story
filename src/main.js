@@ -3,6 +3,9 @@ import VueResource from 'vue-resource'
 import App from './App.vue'
 import router from './router'
 import moment from 'moment'
+import VueMasonry from 'vue-masonry-css'
+
+Vue.use(VueMasonry)
 
 moment.locale('sv')
 

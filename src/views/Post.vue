@@ -1,9 +1,17 @@
 <template>
   <div>
+
     <div class="progressBar">
       <div class="progressBarIndicator" :style="{width: sliderProgress+'%'}" />
     </div>
-    <div class="carouselContainer">
+
+    <div class="layoutSwitch">
+      <i class="fal fa-th fa-fw" :class="{'active': layout === 'grid'}" @click="layout = 'grid'" />
+      <i class="fal fa-portrait fa-fw" :class="{'active': layout === 'list'}" @click="layout = 'list'" />
+      <i class="fal fa-images fa-fw" :class="{'active': layout === 'carousel'}" @click="layout = 'carousel'" />
+    </div>
+
+    <div v-if="layout === 'carousel'" class="carouselContainer">
       <carousel v-if="post.images && post.images.length" :perPage="1" :paginationEnabled="false" :navigationEnabled="true" @pageChange="updateCurrentImgIndex" ref="imageCarousel">
 
         <slide v-for="img in post.images" :key="img.$index" class="imgSlide">
@@ -24,11 +32,25 @@
       <div class="bgImage" v-bind:style="containerStyle" />
     </div>
 
+    <div v-if="layout === 'grid'" class="imgGrid">
+      <masonry
+        :cols="{default: 4, 1000: 3, 700: 2, 420: 1}"
+        :gutter="3"
+        >
+        <img v-for="(img,idx) in post.images" :key="`img-${idx}`" :src="$http.options.root + '/image/w1024h768' + img"  />
+      </masonry>
+    </div>
+
+    <div v-if="layout === 'list'" class="imgList">
+      <img v-for="(img,idx) in post.images" :key="`img-${idx}`" :src="$http.options.root + '/image/w1024h768' + img"  />
+    </div>
+
     <div class="bodyContent" :class="{'small':!post.post}">
       <h1>{{title||'Loading...'}}</h1>
       <div v-if="post.info.date" class="postDate">&mdash; {{post.info.date | formatDate}} &mdash;</div>
       <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
     </div>
+
   </div>
 </template>
 
@@ -51,7 +73,8 @@ export default {
       post: {
         info: {}
       },
-      currentImgIndex: 0
+      currentImgIndex: 0,
+      layout: 'grid'
     }
   },
   mounted () {
@@ -132,11 +155,39 @@ export default {
     background: lighten(saturate(#9AA, 70%), 10%);
   }
 }
-img {
-  max-width: calc(100vw - 60px);
-  max-height: 100vh;
-  height: auto;
-  width: auto;
+.layoutSwitch {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  z-index: 300;
+  padding: calc(20px - 0.5rem);
+  i {
+    box-sizing: content-box;
+    font-size: 1rem;
+    line-height: 1.25em;
+    color: fade(#FFF, 70%);
+    padding: .5rem;
+    background: fade(black, 10%);
+    margin-right: 3px;
+    cursor: pointer;
+    transition: background .3s;
+    &:hover {
+      background: fade(black, 30%);
+      color: #FFF;
+    }
+    &.active {
+      color: #FFF;
+      background: fade(black, 15%);
+    }
+    &:first-child {
+      border-radius: .75rem 0 0 .75rem;
+      padding-left: .6rem;
+    }
+    &:last-child {
+      border-radius: 0 .75rem .75rem 0;
+      padding-right: .6rem;
+    }
+  }
 }
 .carouselContainer {
   width: 100vw;
@@ -158,6 +209,12 @@ img {
     background-position: 50% 50%;
     filter: blur(15px);
     opacity: 0.5;
+  }
+  img {
+    max-width: calc(100vw - 60px);
+    max-height: 100vh;
+    height: auto;
+    width: auto;
   }
 }
 .VueCarousel {
@@ -186,6 +243,29 @@ img {
   justify-content: center;
   align-items: center;
 }
+
+.imgGrid, .imgList {
+  padding: 0 3px;
+  min-height: 30vh;
+  background: #9AA;
+  background-image: svg-gradient(to bottom right, lighten(#9AA, 10%), darken(#9AA, 10%));
+  background-size: cover;
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 3px;
+    border-radius: 4px;
+  }
+}
+.imgList {
+  padding: 10px 3px;
+  img {
+    max-width: 650px;
+    margin: 0 auto 6px;
+  }
+}
+
 .bodyContent {
   position: relative;
   max-width: 650px;

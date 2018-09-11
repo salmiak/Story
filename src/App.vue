@@ -45,7 +45,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
+  // width: 200px;
   padding: 20px;
   z-index: 900;
   text-shadow: 0 0 fade(black, 30%);

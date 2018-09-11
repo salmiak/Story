@@ -4,8 +4,6 @@
 - Add OAuth to Dropbox
 
 - Client:
-  - Read Exif-data from image and show on img
-  - Image grid as optional layout
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
   - Infinit scroll on front page
