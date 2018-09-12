@@ -182,6 +182,10 @@ app.get('/posts/:path', (req, res) => {
 })
 
 app.get('/image/:size*', (req, res) => {
+
+  res.setHeader("Cache-Control", "public, max-age=2592000");
+  res.setHeader("Expires", new Date(Date.now() + 2592000000).toUTCString());
+
   dbx.filesGetThumbnail({
     path: req.params[0],
     format: 'jpeg',
