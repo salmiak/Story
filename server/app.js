@@ -11,6 +11,14 @@ const serveStatic = require('serve-static');
 require('isomorphic-fetch');
 const Dropbox = require('dropbox').Dropbox;
 
+// Keep node dyno on heroku live by pinging it every 5 min
+// source: https://quickleft.com/blog/6-easy-ways-to-prevent-your-heroku-node-app-from-sleeping/
+const http = require("http");
+setInterval(function() {
+    http.get("http://beckmanstory.herokuapp.com")
+    console.log('It\'s alive!')
+}, 300000); // every 5 minutes (300000)
+
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())

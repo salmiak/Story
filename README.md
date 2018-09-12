@@ -4,6 +4,7 @@
 - Add OAuth to Dropbox
 
 - Client:
+  - When not in slider mode the progressbar should reflect how long one scrolled
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
   - Infinit scroll on front page
