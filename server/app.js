@@ -201,6 +201,10 @@ app.get('/image/:size*', (req, res) => {
 })
 
 app.get('/exif*', (req, res) => {
+
+  res.setHeader("Cache-Control", "public, max-age=2592000");
+  res.setHeader("Expires", new Date(Date.now() + 2592000000).toUTCString());
+  
   dbx.filesDownload({
     path: req.params[0]
   })

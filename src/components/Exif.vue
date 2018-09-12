@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 export default {
   name: 'Exif',
   props: ['path'],
@@ -49,8 +48,7 @@ export default {
       if (!this.exifData) {
         return ''
       }
-      moment.locale('sv')
-      return moment(this.exifData.exif.DateTimeOriginal, 'YYYY:MM:DD HH:mm:ss').format('lll[:]ss')
+      return this.exifData.exif.DateTimeOriginal
     }
   }
 }

@@ -2,12 +2,9 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import App from './App.vue'
 import router from './router'
-import moment from 'moment'
 import VueMasonry from 'vue-masonry-css'
 
 Vue.use(VueMasonry)
-
-moment.locale('sv')
 
 Vue.config.productionTip = false
 
@@ -22,7 +19,7 @@ if (process.env.NODE_ENV === 'development') {
 
 Vue.filter('formatDate', (value) => {
   if (value) {
-    return moment(String(value)).format('ll')
+    return (new Date(String(value))).toLocaleDateString('sv-SE', { year: 'numeric', month: 'short', day: 'numeric' })
   }
 })
 

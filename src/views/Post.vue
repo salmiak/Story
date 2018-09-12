@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import findIndex from 'lodash/findIndex'
 import VueMarkdown from 'vue-markdown'
 import { Carousel, Slide } from 'vue-carousel'
 import Exif from '@/components/Exif'
@@ -105,7 +105,7 @@ export default {
       }
     },
     nextPost () {
-      var index = _.findIndex(this.$root.posts, (post) => {
+      var index = findIndex(this.$root.posts, (post) => {
         return post.path === '/' + this.$route.params.path
       })
       if (index === -1) {

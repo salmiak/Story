@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import MobileDetect from 'mobile-detect'
 
 export default {
@@ -36,7 +35,6 @@ export default {
       this.$http.get('posts').then(response => {
         this.$root.posts = response.body
         this.posts = response.body
-        this.$root.postsTimestamp = moment()
         console.log(this.$root)
       }, err => {
         // error callback

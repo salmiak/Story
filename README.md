@@ -8,6 +8,7 @@
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
   - Infinit scroll on front page
+  - Format EXIF date with dateFns (https://github.com/you-dont-need/You-Dont-Need-Momentjs#string--time-format)
 
 - Endpoints:
   - info : based on bloginfo.md in root of apps folder
