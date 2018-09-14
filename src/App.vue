@@ -86,4 +86,7 @@ p {
     opacity: 0.54;
   }
 }
+a {
+  color: fade(darken(saturate(#9AA, 60%), 40%), 60%);
+}
 </style>

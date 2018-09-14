@@ -51,6 +51,10 @@
       <vue-markdown :watches="['post.post']" :source="post.post"></vue-markdown>
     </div>
 
+    <div v-if="nextPost" class="nextPost">
+      <p>Next post: <router-link :to="'/post' + nextPost.path">{{nextPost.name}}</router-link></p>
+    </div>
+
   </div>
 </template>
 
@@ -310,6 +314,21 @@ export default {
   a {
     color: #FFF;
     text-decoration: none;
+  }
+}
+.nextPost {
+  margin-top: 2rem;
+  text-align: center;
+  p {
+    opacity: 0.87;
+    font-size: 1rem;
+  }
+  &::before {
+    content: '';
+    border-bottom: 1px solid fade(#2c3e50, 54%);
+    display: block;
+    width: 3rem;
+    margin: 0 auto 1.2rem;
   }
 }
 
