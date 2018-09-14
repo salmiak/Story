@@ -129,9 +129,9 @@ export default {
       if (this.layout === 'carousel') {
         return 100 * (curImg + 1) / this.post.images.length
       } else if (this.layout === 'grid') {
-        return this.$refs.imgGrid ? 100 * progress / (this.$refs.imgGrid.clientHeight - window.visualViewport.height) : 0
+        return this.$refs.imgGrid ? 100 * progress / (this.$refs.imgGrid.clientHeight - window.innerHeight) : 0
       } else {
-        return this.$refs.imgList ? 100 * progress / (this.$refs.imgList.clientHeight - window.visualViewport.height) : 0
+        return this.$refs.imgList ? 100 * progress / (this.$refs.imgList.clientHeight - window.innerHeight) : 0
       }
     }
   },
