@@ -32,7 +32,7 @@
       <div class="bgImage" v-bind:style="containerStyle" />
     </div>
 
-    <div v-if="layout === 'grid'" class="imgGrid">
+    <div v-if="layout === 'grid'" ref="imgGrid" class="imgGrid">
       <masonry
         :cols="{default: 4, 1000: 3, 700: 2, 420: 1}"
         :gutter="3"
@@ -41,7 +41,7 @@
       </masonry>
     </div>
 
-    <div v-if="layout === 'list'" class="imgList">
+    <div v-if="layout === 'list'" ref="imgList" class="imgList">
       <img v-for="(img,idx) in post.images" :key="`img-${idx}`" :src="$http.options.root + '/image/w1024h768' + img"  />
     </div>
 
@@ -74,10 +74,12 @@ export default {
         info: {}
       },
       currentImgIndex: 0,
-      layout: 'grid'
+      layout: 'grid',
+      scrollProgress: 0
     }
   },
   mounted () {
+    window.addEventListener('scroll', this.updateScrollProgress)
     window.addEventListener('keyup', this.keyPress)
     this.$http.get('posts/' + this.$route.params.path).then(response => {
       this.post = response.body
@@ -88,6 +90,7 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('keyup', this.keyPress)
+    window.removeEventListener('scroll', this.updateScrollProgress)
   },
   computed: {
     title () {
@@ -114,13 +117,24 @@ export default {
       return this.$root.posts[index + 1]
     },
     sliderProgress () {
-      if (!this.post.images) {
-        return 0
+      var progress = this.scrollProgress
+      var curImg = this.currentImgIndex
+
+      if (!this.post.images) { return 0 }
+
+      if (this.layout === 'carousel') {
+        return 100 * (curImg + 1) / this.post.images.length
+      } else if (this.layout === 'grid') {
+        return this.$refs.imgGrid ? 100 * progress / (this.$refs.imgGrid.clientHeight - window.visualViewport.height) : 0
+      } else {
+        return this.$refs.imgList ? 100 * progress / (this.$refs.imgList.clientHeight - window.visualViewport.height) : 0
       }
-      return 100 * (this.currentImgIndex + 1) / this.post.images.length
     }
   },
   methods: {
+    updateScrollProgress () {
+      this.scrollProgress = window.scrollY
+    },
     updateCurrentImgIndex (index) {
       this.currentImgIndex = Math.min(index, this.post.images.length - 1)
     },
