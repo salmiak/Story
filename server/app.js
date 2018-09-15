@@ -3,13 +3,13 @@ const _ = require('lodash')
 const yaml = require('js-yaml')
 const ExifImage = require('exif').ExifImage
 const { getFileExt } = require('./utils')
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const serveStatic = require('serve-static');
 require('isomorphic-fetch');
 const Dropbox = require('dropbox').Dropbox;
+const basicAuth = require('express-basic-auth')
 
 // Keep node dyno on heroku live by pinging it every 5 min
 // source: https://quickleft.com/blog/6-easy-ways-to-prevent-your-heroku-node-app-from-sleeping/
@@ -20,14 +20,21 @@ setInterval(function() {
 }, 300000); // every 5 minutes (300000)
 
 const app = express()
+
 app.use(bodyParser.json())
 app.use(cors())
 app.use(serveStatic(__dirname + "/../dist"))
 
 app.listen(process.env.PORT || 8081)
 
-const credentials = process.env.dbAccessToken || require('../credentials.json').dbAccessToken
+// Basic Auth that is used on images endpoint to make images a little more protected.
+const bAuth = basicAuth({
+    users: { 'gro': 'hedda' },
+    challenge: true,
+    realm: '9l7VdOe',
+})
 
+const credentials = process.env.dbAccessToken || require('../credentials.json').dbAccessToken
 const dbx = new Dropbox({ accessToken: credentials });
 
 app.get('/posts', (req, res) => {
@@ -181,7 +188,7 @@ app.get('/posts/:path', (req, res) => {
   })
 })
 
-app.get('/image/:size*', (req, res) => {
+app.get('/image/:size*', bAuth, (req, res) => {
 
   res.setHeader("Cache-Control", "public, max-age=2592000");
   res.setHeader("Expires", new Date(Date.now() + 2592000000).toUTCString());
@@ -204,7 +211,7 @@ app.get('/exif*', (req, res) => {
 
   res.setHeader("Cache-Control", "public, max-age=2592000");
   res.setHeader("Expires", new Date(Date.now() + 2592000000).toUTCString());
-  
+
   dbx.filesDownload({
     path: req.params[0]
   })

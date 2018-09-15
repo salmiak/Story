@@ -12,7 +12,6 @@ Vue.use(VueResource)
 // Vue.http.options.root = 'http://localhost:8081'
 var hostArr = window.location.href.split('/')
 Vue.http.options.root = hostArr[0] + '//' + hostArr[2]
-
 if (process.env.NODE_ENV === 'development') {
   Vue.http.options.root = 'http://localhost:8081'
 }
