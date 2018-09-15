@@ -4,11 +4,11 @@
 - Add OAuth to Dropbox
 
 - Client:
-  - When not in slider mode the progressbar should reflect how long one scrolled
   - Next / Prev post link on posts
     - Links next to content (or at bottom of text)
   - Infinit scroll on front page
   - Format EXIF date with dateFns (https://github.com/you-dont-need/You-Dont-Need-Momentjs#string--time-format)
+  - Image loading spinner
 
 - Endpoints:
   - info : based on bloginfo.md in root of apps folder
