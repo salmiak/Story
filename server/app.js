@@ -40,20 +40,21 @@ const dbx = new Dropbox({ accessToken: credentials });
 app.get('/posts', (req, res) => {
   dbx.filesListFolder({path: ''})
     .then((response) => {
-      parallel(_.chain(response.entries)
+      // Create one parallel process for each folder.
+      parallel(_.chain(response.result.entries)
         .filter({'.tag': 'folder'})
         .map((folder) => {
           return (callback) => {
 
             dbx.filesListFolder({
-              path: folder.path_lower,
-              include_media_info: true
+              path: folder.path_lower
             })
               .then((response) => {
 
-                var imageInfo = _.chain(response.entries)
+                // Get first image in folder to set as thumbnail on index.
+                var imageInfo = _.chain(response.result.entries)
                   .filter((file) => { return getFileExt(file.name) === 'jpg' })
-                  .sortBy((file) => { return (new Date( file.media_info.metadata.time_taken)).getTime() })
+                  .sortBy((file) => { return file.name })
                   .head()
                   .value()
 
@@ -65,11 +66,12 @@ app.get('/posts', (req, res) => {
                 var payload = {
                   postFile: postFile,
                   firstImage: imageInfo,
-                  date: imageInfo?new Date(imageInfo.media_info.metadata.time_taken):null,
+                  date: new Date(), // imageInfo?new Date(imageInfo.media_info.metadata.time_taken):null,
                   name: folder.name,
                   path: folder.path_lower
                 }
 
+                /*
                 if (postFile) {
                   dbx.filesDownload({path: postFile.path_lower})
                   .then((postFileResponse) => {
@@ -97,7 +99,8 @@ app.get('/posts', (req, res) => {
                   })
                 } else {
                   callback(null, payload)
-                }
+                }*/
+                callback(null, payload)
               })
               .catch((error) => {
                 console.log(error)
@@ -127,7 +130,7 @@ app.get('/posts/:path', (req, res) => {
     (callback) => {
       dbx.filesListFolder({path: ''})
         .then((response) => {
-          callback(null, _.chain(response.entries).find({ path_lower: '/'+req.params.path }).value())
+          callback(null, _.chain(response.result.entries).find({ path_lower: '/'+req.params.path }).value())
         })
         .catch((error) => {
           console.error(error)
@@ -137,7 +140,7 @@ app.get('/posts/:path', (req, res) => {
     (callback) => {
       dbx.filesListFolder({path: '/'+req.params.path})
         .then((response) => {
-          callback(null, response)
+          callback(null, response.result)
         })
         .catch((error) => {
           console.error(error)
@@ -168,7 +171,7 @@ app.get('/posts/:path', (req, res) => {
       dbx.filesDownload({path: infoFile.path_lower})
       .then((response) => {
 
-        var postInfoArray = response.fileBinary.toString('utf8').split('///')
+        var postInfoArray = response.result.fileBinary.toString('utf8').split('///')
 
         if (postInfoArray.length > 1) {
           toSend.info = _.mapKeys(yaml.load(_.trim(postInfoArray[0])), (v, k) => { return k.toLowerCase() })
@@ -200,7 +203,7 @@ app.get('/image/:size*', bAuth, (req, res) => {
   })
   .then(function(response) {
     res.contentType('image/jpeg');
-    res.send(response.fileBinary)
+    res.send(response.result.fileBinary)
   })
   .catch(function(error) {
     console.error(error);
@@ -218,7 +221,7 @@ app.get('/exif*', (req, res) => {
   .then(function(response) {
 
     try {
-      new ExifImage({ image : response.fileBinary }, function (error, exifData) {
+      new ExifImage({ image : response.result.fileBinary }, function (error, exifData) {
         if (error)
           console.log('Error: '+error.message);
         else
