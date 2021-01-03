@@ -58,7 +58,7 @@ app.get('/posts', (req, res) => {
                   .head()
                   .value()
 
-                var postFile = _.chain(response.entries)
+                var postFile = _.chain(response.result.entries)
                   .filter((file) => { return getFileExt(file.name) === 'md' })
                   .head()
                   .value()
@@ -66,25 +66,25 @@ app.get('/posts', (req, res) => {
                 var payload = {
                   postFile: postFile,
                   firstImage: imageInfo,
-                  date: new Date(), // imageInfo?new Date(imageInfo.media_info.metadata.time_taken):null,
+                  date: new Date(imageInfo.client_modified), // imageInfo?new Date(imageInfo.media_info.metadata.time_taken):null,
                   name: folder.name,
                   path: folder.path_lower
                 }
 
-                /*
                 if (postFile) {
                   dbx.filesDownload({path: postFile.path_lower})
                   .then((postFileResponse) => {
 
-                    var postInfoArray = postFileResponse.fileBinary.toString('utf8').split('///')
+                    var postInfoArray = postFileResponse.result.fileBinary.toString('utf8').split('///')
 
                     if (postInfoArray.length > 1) {
                       payload.info = _.mapKeys(yaml.load(_.trim(postInfoArray[0])), (v, k) => { return k.toLowerCase() })
                     }
-                    if (payload.info.Date) {
-                      payload.date = new Date(payload.info.Date)
+
+                    if (payload.info && payload.info.date) {
+                      payload.date = new Date(payload.info.date)
                     }
-                    if (payload.info.cover) {
+                    if (payload.info && payload.info.cover) {
                       coverImage = _.chain(response.entries)
                         .filter((file) => { return file.name.search(payload.info.cover) !== -1 })
                         .head()
@@ -99,8 +99,8 @@ app.get('/posts', (req, res) => {
                   })
                 } else {
                   callback(null, payload)
-                }*/
-                callback(null, payload)
+                }
+
               })
               .catch((error) => {
                 console.log(error)
