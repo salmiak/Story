@@ -36,22 +36,42 @@ Image sizes are:
 
 ## Project setup
 ```
-npm install
+$ npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads frontend for development
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+$ npm run serve
 ```
 
-### Lints and fixes files
+### Backend on nodemon for developement
 ```
-npm run lint
+$ npm run server
+```
+
+## Heroku
+
+### Setup
+
+1. Make sure to have [heroku installed](https://devcenter.heroku.com/articles/heroku-cli#download-and-install).
+2. Login to heroku
+```
+$ heroku login
+```
+3. Add heroku as new remote
+```
+$ git remote add heroku https://git.heroku.com/beckmanstory.git
+```
+
+### Deploy to Heroku
+1. Login to heroku
+```
+$ heroku login
+```
+2. Make sure all changes are commited to `master`.
+3. Push to heroku
+```
+$ git push heroku master
 ```
 
 // Version 4
