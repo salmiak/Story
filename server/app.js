@@ -85,7 +85,7 @@ app.get('/posts', (req, res) => {
                       payload.date = new Date(payload.info.date)
                     }
                     if (payload.info && payload.info.cover) {
-                      coverImage = _.chain(response.entries)
+                      coverImage = _.chain(response.result.entries)
                         .filter((file) => { return file.name.search(payload.info.cover) !== -1 })
                         .head()
                         .value()
