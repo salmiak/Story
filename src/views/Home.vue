@@ -10,7 +10,7 @@
       </li>
       <li v-for="post in posts" :key="post.$index" class="post" :class="{onDesktop: !isMobile}">
         <router-link :to="'/post' + post.path">
-          <div v-if="post.firstImage" v-bind:style=" { 'backgroundImage' : 'url(\'' + $http.options.root + '/image/w960h640' + post.firstImage.path_lower + '\')' }" class="postCover" />
+          <div v-if="post.coverImage" v-bind:style=" { 'backgroundImage' : 'url(\'' + $http.options.root + '/image/w960h640' + post.coverImage.path_lower + '\')' }" class="postCover" />
           <span class="postTitle">{{post.name}} <span class="smallDate">{{post.date | formatDate}}</span></span>
         </router-link>
       </li>

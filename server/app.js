@@ -2,7 +2,7 @@ const parallel = require('run-parallel')
 const _ = require('lodash')
 const yaml = require('js-yaml')
 const ExifImage = require('exif').ExifImage
-const { getFileExt } = require('./utils')
+const { getFileExt, parseInfoFile } = require('./utils')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -58,47 +58,64 @@ app.get('/posts', (req, res) => {
                   .head()
                   .value()
 
+                // Set default value for payload
+                var payload = {
+                  coverImage: imageInfo,
+                  date: new Date(imageInfo.client_modified), // imageInfo?new Date(imageInfo.media_info.metadata.time_taken):null,
+                  name: folder.name,
+                  path: folder.path_lower,
+                  info: {}
+                }
+
+                // Get post.md-file in folder if there is one.
                 var postFile = _.chain(response.result.entries)
                   .filter((file) => { return getFileExt(file.name) === 'md' })
                   .head()
                   .value()
 
-                var payload = {
-                  postFile: postFile,
-                  firstImage: imageInfo,
-                  date: new Date(imageInfo.client_modified), // imageInfo?new Date(imageInfo.media_info.metadata.time_taken):null,
-                  name: folder.name,
-                  path: folder.path_lower
-                }
-
                 if (postFile) {
                   dbx.filesDownload({path: postFile.path_lower})
                   .then((postFileResponse) => {
 
-                    var postInfoArray = postFileResponse.result.fileBinary.toString('utf8').split('///')
+                    var postInfo = parseInfoFile(postFileResponse.result.fileBinary)
 
-                    if (postInfoArray.length > 1) {
-                      payload.info = _.mapKeys(yaml.load(_.trim(postInfoArray[0])), (v, k) => { return k.toLowerCase() })
-                    }
+                    payload.info = postInfo.info
 
-                    if (payload.info && payload.info.date) {
+                    if (payload.info.date) {
                       payload.date = new Date(payload.info.date)
                     }
-                    if (payload.info && payload.info.cover) {
+                    if (payload.info.cover) {
                       coverImage = _.chain(response.result.entries)
                         .filter((file) => { return file.name.search(payload.info.cover) !== -1 })
                         .head()
                         .value()
-                      payload.firstImage = coverImage || payload.firstImage
+                      payload.coverImage = coverImage || payload.coverImage
                     }
 
-                    callback(null, payload)
+                    dbx.filesGetMetadata({
+                      path: payload.coverImage.path_lower,
+                      include_media_info: true
+                    })
+                    .then((metaDataResponse) => {
+                      payload.date = new Date(metaDataResponse.result.media_info.metadata.time_taken)
+                      callback(null, payload)
+                    })
+
+
                   })
                   .catch((err) => {
                     console.error(err)
                   })
                 } else {
-                  callback(null, payload)
+
+                  dbx.filesGetMetadata({
+                    path: payload.coverImage.path_lower,
+                    include_media_info: true
+                  })
+                  .then((metaDataResponse) => {
+                    payload.date = new Date(metaDataResponse.result.media_info.metadata.time_taken)
+                    callback(null, payload)
+                  })
                 }
 
               })
