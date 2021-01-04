@@ -187,16 +187,7 @@ app.get('/posts/:path', (req, res) => {
     if (infoFile) {
       dbx.filesDownload({path: infoFile.path_lower})
       .then((response) => {
-
-        var postInfoArray = response.result.fileBinary.toString('utf8').split('///')
-
-        if (postInfoArray.length > 1) {
-          toSend.info = _.mapKeys(yaml.load(_.trim(postInfoArray[0])), (v, k) => { return k.toLowerCase() })
-          toSend.post = _.trim(postInfoArray[1])
-        } else {
-          toSend.post = _.trim(postInfoArray[0])
-        }
-
+        Object.assign(toSend, parseInfoFile(response.result.fileBinary))
         res.send(toSend)
       })
       .catch((err) => {
@@ -236,13 +227,11 @@ app.get('/exif*', (req, res) => {
     path: req.params[0]
   })
   .then(function(response) {
-
     try {
       new ExifImage({ image : response.result.fileBinary }, function (error, exifData) {
         if (error)
           console.log('Error: '+error.message);
         else
-          // console.log(exifData); // Do something with your data!
           res.send(exifData)
       });
     } catch (error) {

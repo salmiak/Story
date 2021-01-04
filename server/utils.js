@@ -11,10 +11,13 @@ module.exports = {
 
     if (postInfoArray.length > 1) {
       return {
-        info: _.mapKeys(yaml.load(_.trim(postInfoArray[0])), (v, k) => { return k.toLowerCase() })
+        info: _.mapKeys(yaml.load(_.trim(postInfoArray[0])), (v, k) => { return k.toLowerCase() }),
+        post: _.trim(postInfoArray[1])
       }
     } else {
-      return undefined
+      return {
+        post: _.trim(postInfoArray[0])
+      }
     }
   }
 }
